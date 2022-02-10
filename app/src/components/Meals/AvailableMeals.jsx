@@ -4,7 +4,7 @@ import MealItem from "./MealItem";
 import Card from "../UI/Card";
 
 const AvailableMeals = (props) => {
-  const { meals } = props;
+  const { meals, onAddMeal } = props;
 
   return (
     <Card className={styles.meals}>
@@ -12,9 +12,11 @@ const AvailableMeals = (props) => {
         {meals.map((meal) => (
           <MealItem
             key={meal.id}
+            id={meal.id}
             name={meal.name}
             description={meal.description}
             price={meal.price}
+            onAddMeal={onAddMeal}
           />
         ))}
       </ul>

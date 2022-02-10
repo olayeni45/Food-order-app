@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import styles from "./css/HeaderCartButton.module.css";
 import CartIcon from "../UI/CartIcon";
+import Modal from "../Modal/Modal";
 
 const HeaderCartButton = (props) => {
-  const [cartNumber, setCartNumber] = useState(0);
+  const { orderedAmount, cart } = props;
+  const [showModal, setShowModal] = useState(false);
 
-  const onButtonClick = () => {
-    setCartNumber((prev) => (prev += 1));
-  };
+  const closeModal = () => setShowModal(false);
 
   return (
-    <button className={styles.button} onClick={onButtonClick}>
-      <div className={styles.icon}>
-        <CartIcon />
-      </div>
-      Your Cart
-      <div className={`${styles.badge} `}>{cartNumber}</div>
-    </button>
+    <Fragment>
+      <button className={styles.button} onClick={() => setShowModal(true)}>
+        <div className={styles.icon}>
+          <CartIcon />
+        </div>
+        Your Cart
+        <div className={`${styles.badge}`}>{orderedAmount}</div>
+      </button>
+      {showModal && <Modal onCloseModal={closeModal} cart={cart} />}
+    </Fragment>
   );
 };
 
