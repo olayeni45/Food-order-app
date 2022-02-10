@@ -1,14 +1,15 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styles from "./css/Header.module.css";
 
 import HeaderCartButton from "./HeaderCartButton";
 
 const Header = (props) => {
+  const { orderedAmount, cart } = props;
   return (
-    <div>
+    <Fragment>
       <div className={styles.header}>
         <h1>ReactMeals</h1>
-        <HeaderCartButton />
+        <HeaderCartButton orderedAmount={orderedAmount} cart={cart} />
       </div>
 
       <div className={styles["main-image"]}>
@@ -17,7 +18,7 @@ const Header = (props) => {
           alt="meal"
         />
       </div>
-    </div>
+    </Fragment>
   );
 };
 
