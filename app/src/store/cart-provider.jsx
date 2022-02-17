@@ -8,7 +8,7 @@ const defaultCartState = {
 };
 
 const cartReducer = (state, action) => {
-  const { type, payload } = action;
+  const { type, payload, id } = action;
 
   switch (type) {
     case cartActionTypes.add: {
@@ -40,6 +40,33 @@ const cartReducer = (state, action) => {
       };
     }
 
+    case cartActionTypes.remove: {
+      const existingCartItemIndex = state.items.findIndex(
+        (item) => item.id === id
+      );
+
+      const existingCartItem = state.items[existingCartItemIndex];
+      const updatedTotalAmount = state.totalAmount - existingCartItem.price;
+
+      let updatedItems;
+
+      if (existingCartItem.amount === 1) {
+        updatedItems = state.items.filter((item) => item.id !== id);
+      } else {
+        const updatedItem = {
+          ...existingCartItem,
+          amount: existingCartItem.amount - 1,
+        };
+        updatedItems = [...state.items];
+        updatedItems[existingCartItemIndex] = updatedItem;
+      }
+
+      return {
+        items: updatedItems,
+        totalAmount: updatedTotalAmount,
+      };
+    }
+
     default:
       return defaultCartState;
   }
@@ -58,7 +85,7 @@ const CartProvider = (props) => {
   };
 
   const removeItemFromCartHandler = (id) => {
-    dispatchCartAction({ type: cartActionTypes.remove, payload: id });
+    dispatchCartAction({ type: cartActionTypes.remove, id });
   };
 
   const cartContext = {
