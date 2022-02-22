@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./css/CartItem.module.css";
 
 const CartItem = (props) => {
-  const { id, price, name, amount, onAdd, onRemove } = props;
+  const { price, name, amount, onAdd, onRemove } = props;
   const roundedPrice = `$${price.toFixed(2)}`;
 
   return (
@@ -15,8 +15,8 @@ const CartItem = (props) => {
         </div>
       </div>
       <div className={styles.actions}>
-        <button onClick={() => onRemove(id)}>−</button>
-        <button onClick={() => onAdd(id)}>+</button>
+        <button onClick={onRemove}>−</button>
+        <button onClick={onAdd}>+</button>
       </div>
     </li>
   );

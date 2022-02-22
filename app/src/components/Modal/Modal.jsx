@@ -9,10 +9,10 @@ const Backdrop = (props) => {
 };
 
 const ModalOverlay = (props) => {
-  const { cartArray, onCloseModal } = props;
+  const { onCloseModal } = props;
   return (
     <div className={styles.modal}>
-      <Cart cart={cartArray} onCloseModal={onCloseModal} />
+      <Cart onCloseModal={onCloseModal} />
     </div>
   );
 };
