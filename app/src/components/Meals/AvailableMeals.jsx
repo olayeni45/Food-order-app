@@ -4,7 +4,7 @@ import MealItem from "./MealItem";
 import Card from "../UI/Card";
 
 const AvailableMeals = (props) => {
-  const { meals, onAddMeal } = props;
+  const { meals } = props;
 
   return (
     <Card className={styles.meals}>
@@ -16,7 +16,6 @@ const AvailableMeals = (props) => {
             name={meal.name}
             description={meal.description}
             price={meal.price}
-            onAddMeal={onAddMeal}
           />
         ))}
       </ul>

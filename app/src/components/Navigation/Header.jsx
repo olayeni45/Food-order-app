@@ -4,12 +4,11 @@ import styles from "./css/Header.module.css";
 import HeaderCartButton from "./HeaderCartButton";
 
 const Header = (props) => {
-  const { orderedAmount, cart } = props;
   return (
     <Fragment>
       <div className={styles.header}>
         <h1>ReactMeals</h1>
-        <HeaderCartButton orderedAmount={orderedAmount} cart={cart} />
+        <HeaderCartButton />
       </div>
 
       <div className={styles["main-image"]}>

@@ -1,54 +1,42 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext } from "react";
 import styles from "./css/Cart.module.css";
 import CartItem from "./CartItem";
+import CartContext from "../../store/cart-context";
 
 const Cart = (props) => {
-  const { cart, onCloseModal } = props;
-  const [cartArray, setCartArray] = useState(cart);
-  let totalAmount = 0;
+  const { onCloseModal } = props;
 
-  if (cartArray.length > 0) {
-    const totalArray = cartArray.map((cart) => cart.amount * cart.price);
-    totalAmount = totalArray
-      .reduce((prev, current) => prev + current)
-      .toFixed(2);
-  }
+  const cartCtx = useContext(CartContext);
+  const { items, totalAmount, addItem, removeItem } = cartCtx;
 
-  const addItem = (id) => {
-    console.log(
-      "Add",
-      cartArray.find((c) => c.id === id)
-    );
+  const hasItems = items.length > 0;
+
+  const cartItemAddHandler = (item) => {
+    addItem({ ...item, amount: 1 });
   };
 
-  const removeItem = (id) => {
-    console.log(
-      "Remove",
-      cartArray.find((c) => c.id === id)
-    );
+  const cartItemRemoveHandler = (id) => {
+    removeItem(id);
   };
 
-  console.log(cartArray);
-
-  const cartSummary = (
+  return (
     <Fragment>
       <div className={styles["cart-items"]}>
-        {cartArray.map((cart) => (
+        {items.map((cart) => (
           <CartItem
             key={cart.id}
-            id={cart.id}
             name={cart.name}
             price={cart.price}
             amount={cart.amount}
-            onAdd={addItem}
-            onRemove={removeItem}
+            onAdd={cartItemAddHandler.bind(null, cart)}
+            onRemove={cartItemRemoveHandler.bind(null, cart.id)}
           />
         ))}
       </div>
 
       <div className={styles.total}>
         <div>Total Amount</div>
-        <div>${totalAmount}</div>
+        <div>${totalAmount.toFixed(2)}</div>
       </div>
 
       <div className={styles.actions}>
@@ -59,24 +47,16 @@ const Cart = (props) => {
         >
           Close
         </button>
-        <button
-          type="button"
-          className={styles.button}
-          onClick={() => console.log("ordering...")}
-        >
-          Order
-        </button>
+        {hasItems > 0 && (
+          <button
+            type="button"
+            className={styles.button}
+            onClick={() => console.log("ordering...")}
+          >
+            Order
+          </button>
+        )}
       </div>
-    </Fragment>
-  );
-
-  return (
-    <Fragment>
-      {cartArray.length > 0 ? (
-        cartSummary
-      ) : (
-        <h2 className={styles.empty}>Your cart is empty</h2>
-      )}
     </Fragment>
   );
 };
